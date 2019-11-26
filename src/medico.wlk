@@ -22,7 +22,7 @@ class JefeMedico inherits Medico{
 	
 	override method atender(_paciente, _dosisRemedio){
 		super(_paciente, _dosisRemedio)
-		aCargo.any(medico => medico.atender(_paciente))
+		aCargo.anyOne(medico => medico.atender(_paciente))
 	}
 	
 }
