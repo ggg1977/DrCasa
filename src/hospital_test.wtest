@@ -1,0 +1,60 @@
+import enfermendad.*
+import persona.*
+
+describe "Tests tentrega 2" {
+
+	test "test a" {
+			
+			var malaria = new Enfermedad(tipo=new Infecciosa(), nombre="malaria")
+			
+			var otraMalaria = new Enfermedad(tipo=new Infecciosa(), nombre="malaria")
+			
+			var otitis = new Enfermedad(tipo=new Infecciosa(),nombre="otitis")
+			
+			var lupus = new Enfermedad(tipo=new Autoinmune(), nombre="lupus")
+			
+			var logan = new Persona()
+			
+			var frank = new Persona()
+			frank.celulasTotales(3500000)
+			
+			fixture {
+				malaria.celulasAmenazadas(500)
+				otraMalaria.celulasAmenazadas(800)
+				otitis.celulasAmenazadas(100)
+				lupus.celulasAmenazadas(10000)
+				
+				logan.celulasTotales(3000000)
+				
+				logan.contraer(malaria)
+				logan.contraer(otitis)
+				logan.contraer(lupus)
+			
+			}
+			
+			test "que Frank contraiga la enfermedad del ítem b"{
+				frank.contraer(otraMalaria)
+			}
+			
+			test "que una malaria (la que contrajo Logan) se reproduzca"{
+				logan.enfermedades().find({enfermedad=>enfermedad.nombre=="malaria"}).reproducirse()
+			}
+			
+			test "que Logan pase 31 días y verificar que su estado se corresponda con los efectos de sus enfermedades"{
+				31.times{logan.vivirUnDia()}
+			}
+			test "que Logan viva un día de su vida para verificar" {
+				
+				logan.vivirUnDia()
+				assert.that(logan.enfermedades().sum(enfermedad=>enfermedad.celulasAmenazadas()) > 0)
+				assert.that(logan.enfermedades().max(enfermedad=>enfermedad.celulasAmenazadas()) != false)
+			}				
+		}
+		
+	
+	}
+	
+	test "test b"{
+	}
+	
+}
